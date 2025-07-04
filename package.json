@@ -10,12 +10,12 @@
     "url": "git+https://github.com/ruslanpetunin/orchestrator-pp-flow"
   },
   "scripts": {
-    "build": "tsup src/index.ts --dts --format esm --clean --tsconfig tsconfig.build.json"
+    "build": "tsup src/index.ts --dts --format cjs --clean --tsconfig tsconfig.build.json"
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.cjs",
+      "types": "./dist/index.d.cts"
     }
   },
   "devDependencies": {
