@@ -6,6 +6,10 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruslanpetunin/orchestrator-pp-flow"
+  },
   "scripts": {
     "build": "tsup src/index.ts --dts --format cjs --clean"
   },
