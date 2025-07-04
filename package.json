@@ -16,10 +16,8 @@
   },
   "exports": {
     ".": {
-      "default": "./dist/index.js",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "devDependencies": {
@@ -27,6 +25,6 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "orchestrator-pp-core": "^1.0.4"
+    "orchestrator-pp-core": "^1.0.0"
   }
 }

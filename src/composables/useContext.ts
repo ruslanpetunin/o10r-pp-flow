@@ -1,20 +1,26 @@
 import type { Context, ContextStorage, ContextManager } from '../types/context'
-import type { InitData } from 'orchestrator-pp-core'
+import type { InitData, ProjectSettings } from 'orchestrator-pp-core'
 
 export default function() {
   const storage: ContextStorage = {};
 
   const contextManager: ContextManager = {
-    setInitData: (token: string, data: InitData) => {
+    setInitData: (data: InitData) => {
       storage.initData = data;
+    },
+    setProjectSettings: (settings: ProjectSettings) => {
+      storage.projectSettings = settings;
+    },
+    setToken: (token: string) => {
       storage.token = token;
-    }
+    },
   };
 
   const context: Context = {
     getAmount: () => storage.initData?.amount || 0,
     getCurrency: () => storage.initData?.currency || '',
     getProjectHash: () => storage.initData?.project_hash || '',
+    getProjectSettings: () => storage.projectSettings || { methods: []},
     getToken: () => storage.token || '',
   };
 

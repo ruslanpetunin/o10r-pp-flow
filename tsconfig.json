@@ -8,7 +8,11 @@
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "orchestrator-pp-core": ["./../orchestrator-pp-core/src", "orchestrator-pp-core"]
+    }
   },
   "include": ["src"]
 }

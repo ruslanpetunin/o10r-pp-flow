@@ -4,6 +4,7 @@ export * from './types/context';
 export * from './types/flow';
 export * from './types/event';
 
-const PpFlow = useFlow();
+
+const PpFlow = useFlow;
 
 export default PpFlow;
