@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "files": [
     "dist"
   ],
@@ -11,11 +12,13 @@
     "url": "git+https://github.com/ruslanpetunin/orchestrator-pp-flow"
   },
   "scripts": {
-    "build": "tsup src/index.ts --dts --format cjs --clean"
+    "build": "tsup src/index.ts --dts --format cjs,esm --clean"
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "default": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
   },
