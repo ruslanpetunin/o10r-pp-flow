@@ -14,8 +14,8 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.cjs",
-      "types": "./dist/index.d.cts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "devDependencies": {
