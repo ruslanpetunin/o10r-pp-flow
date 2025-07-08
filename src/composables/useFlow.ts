@@ -2,7 +2,7 @@ import type { Flow } from './../types/flow';
 import type { EventMap } from './../types/event';
 import useContext from './useContext';
 import { useEventManager, useJwtToken, useApi } from 'orchestrator-pp-core';
-import type { PaymentMethodFactory } from 'src/types/method';
+import type { PaymentMethodFactory } from './../types/method';
 
 export default function(apiHost: string, paymentMethodFactory: PaymentMethodFactory): Flow {
   const { context, contextManager } = useContext();
