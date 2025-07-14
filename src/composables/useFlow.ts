@@ -1,8 +1,15 @@
 import type { Flow } from './../types/flow';
 import type { EventMap } from './../types/event';
 import useContext from './useContext';
-import { useEventManager, useJwtToken, useApi, useProjectSettings, useTranslator, Language } from 'orchestrator-pp-core';
-import type { PaymentMethodFactory } from 'orchestrator-pp-core';
+import {
+  useEventManager,
+  useJwtToken,
+  useApi,
+  useProjectSettings,
+  useTranslator,
+  Language
+} from 'orchestrator-pp-core'
+import type { PaymentMethodFactory, PaymentMethod } from 'orchestrator-pp-core';
 
 export default function(apiHost: string, paymentMethodFactory: PaymentMethodFactory): Flow {
   const { context, contextManager } = useContext();
@@ -29,12 +36,17 @@ export default function(apiHost: string, paymentMethodFactory: PaymentMethodFact
     emit('init', context);
   }
 
-  async function pay(data: unknown): Promise<void> {
-    if (!data) {
-      throw new Error('No data provided for payment.');
-    }
+  const pay = async (method: PaymentMethod) => {
+    try {
+      const collectedData = await method.getCollectedData();
 
-    console.log('Processing payment with data:', data);
+      console.log('Executing payment with method:', method.code);
+      console.log('Collected data:', collectedData);
+    } catch (error) {
+      console.error('Error collecting payment data:', error);
+
+      throw new Error('Failed to collect payment data.');
+    }
   }
 
   return {

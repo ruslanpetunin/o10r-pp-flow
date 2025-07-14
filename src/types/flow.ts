@@ -1,4 +1,4 @@
-import type { EventManager } from 'orchestrator-pp-core';
+import type { EventManager, PaymentMethod } from 'orchestrator-pp-core'
 import type { EventMap } from './event';
 import type { Context } from './context';
 import type { Translator } from './translator';
@@ -8,5 +8,5 @@ export interface Flow extends Omit<EventManager<EventMap>, 'emit'> {
   translator: Translator,
 
   init: (token: string) => Promise<void>;
-  pay: (data: unknown) => Promise<void>;
+  pay: (method: PaymentMethod) => Promise<void>;
 }

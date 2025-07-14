@@ -1,5 +1,5 @@
-import { Language as LanguageBase } from 'orchestrator-pp-core'
-import type { Translate } from 'orchestrator-pp-core'
+import { Language as LanguageBase } from 'orchestrator-pp-core';
+import type { Translate } from 'orchestrator-pp-core';
 
 export type Language = LanguageBase;
 
