@@ -1,26 +1,38 @@
 import type { Flow } from './../types/flow';
 import type { EventMap } from './../types/event';
+import type { Translator } from './../types/translator';
 import useContext from './useContext';
+import useProjectSettings from './useProjectSettings';
 import {
   useEventManager,
   useJwtToken,
   useApi,
-  useProjectSettings,
   useTranslator,
   Language
 } from 'orchestrator-pp-core'
-import type { PaymentMethodFactory, PaymentMethod } from 'orchestrator-pp-core';
+import type { PaymentMethodFactory, PaymentMethod } from 'orchestrator-pp-payment-method';
+import type { Emit, Api } from 'orchestrator-pp-core';
 
-export default function(apiHost: string, paymentMethodFactory: PaymentMethodFactory): Flow {
-  const { context, contextManager } = useContext();
-  const { on, off, emit } = useEventManager<EventMap>();
-  const api = useApi(apiHost);
+function makeTranslator(api: Api, emit: Emit<EventMap>): Translator {
   const translator = useTranslator(api);
 
   translator.on(
     'languageChanged',
     (lang) => emit('languageChanged', lang)
   );
+
+  return {
+    translate: translator.translate,
+    getLanguage: translator.getLanguage,
+    setLanguage: translator.setLanguage
+  };
+}
+
+export default function(apiHost: string, paymentMethodFactory: PaymentMethodFactory): Flow {
+  const { context, contextManager } = useContext();
+  const { on, off, emit } = useEventManager<EventMap>();
+  const api = useApi(apiHost);
+  const translator = makeTranslator(api, emit);
 
   const init = async (token: string) => {
     const initData = useJwtToken(token);
@@ -51,11 +63,7 @@ export default function(apiHost: string, paymentMethodFactory: PaymentMethodFact
 
   return {
     context,
-    translator: {
-      translate: translator.translate,
-      getLanguage: translator.getLanguage,
-      setLanguage: translator.setLanguage
-    },
+    translator,
 
     init,
     pay,

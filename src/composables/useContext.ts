@@ -1,5 +1,6 @@
 import type { Context, ContextStorage, ContextManager } from '../types/context';
-import type { InitData, ProjectSettings } from 'orchestrator-pp-core';
+import type { InitData } from 'orchestrator-pp-core';
+import type { ProjectSettings } from '../types/context';
 
 export default function() {
   const storage: ContextStorage = {};

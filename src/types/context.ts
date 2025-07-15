@@ -1,4 +1,7 @@
-import type { InitData, ProjectSettings } from 'orchestrator-pp-core';
+import type { InitData, ProjectSettingsData } from 'orchestrator-pp-core';
+import type { PaymentMethod } from 'orchestrator-pp-payment-method';
+
+export type ProjectSettings = Omit<ProjectSettingsData, 'methods'> & { methods: PaymentMethod[] };
 
 export interface ContextStorage {
   initData?: InitData,
