@@ -2,7 +2,6 @@ import type { Flow } from './../types/flow';
 import type { EventMap } from './../types/event';
 import type { Translator } from './../types/translator';
 import useContext from './useContext';
-import useProjectSettings from './useProjectSettings';
 import {
   useEventManager,
   useJwtToken,
@@ -33,16 +32,20 @@ export default function(apiHost: string, paymentMethodFactory: PaymentMethodFact
   const { on, off, emit } = useEventManager<EventMap>();
   const api = useApi(apiHost);
   const translator = makeTranslator(api, emit);
+  const paymentMethods: PaymentMethod[] = [];
 
   const init = async (token: string) => {
     const initData = useJwtToken(token);
     const [ projectSettings ] = await Promise.all([
-      useProjectSettings(api, initData, paymentMethodFactory),
+      api.getProjectSettings(initData.project_hash),
       translator.setLanguage(Language.EN)
     ]);
 
+    paymentMethods.push(
+      ...(await paymentMethodFactory(initData, projectSettings))
+    );
+
     contextManager.setInitData(initData);
-    contextManager.setProjectSettings(projectSettings);
     contextManager.setToken(token);
 
     emit('init', context);
@@ -63,6 +66,8 @@ export default function(apiHost: string, paymentMethodFactory: PaymentMethodFact
 
   return {
     context,
+
+    paymentMethods,
     translator,
 
     init,

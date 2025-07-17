@@ -6,6 +6,8 @@ import type { Translator } from './translator';
 
 export interface Flow extends Omit<EventManager<EventMap>, 'emit'> {
   context: Context;
+
+  paymentMethods: PaymentMethod[];
   translator: Translator,
 
   init: (token: string) => Promise<void>;
