@@ -5,26 +5,21 @@ import {
   useCookies,
   PaymentStatus
 } from 'orchestrator-pp-core'
-import type { Api, Emit, EventManager } from 'orchestrator-pp-core';
+import type { Api, EventManager, Translator } from 'orchestrator-pp-core';
 import type { PaymentMethod, PaymentMethodFactory } from 'orchestrator-pp-payment-method';
 import type { ContextManager } from './../types/context';
 import type { EventMap } from './../types/event';
-import type { Translator } from './../types/translator';
 import type { PaymentStatusManager } from './../types/paymentStatus';
 
-function makeTranslator(api: Api, emit: Emit<EventMap>): Translator {
+function makeTranslator(api: Api, eventManager: EventManager<EventMap>): Translator {
   const translator = useTranslator(api);
 
   translator.on(
     'languageChanged',
-    (lang) => emit('languageChanged', lang)
+    (lang) => eventManager.emit('languageChanged', lang)
   );
 
-  return {
-    translate: translator.translate,
-    getLanguage: translator.getLanguage,
-    setLanguage: translator.setLanguage
-  };
+  return translator;
 }
 
 async function askPaymentStatus(paymentStatusManager: PaymentStatusManager, eventManager: EventManager<EventMap>, token: string) {
@@ -56,7 +51,7 @@ export default function(
   paymentMethodFactory: PaymentMethodFactory
 ) {
   const context = contextManager.getContext();
-  const translator = makeTranslator(api, eventManager.emit);
+  const translator = makeTranslator(api, eventManager);
   const paymentMethods: PaymentMethod[] = [];
 
   const init = async (token: string) => {

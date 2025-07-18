@@ -3,8 +3,10 @@ import useFlow from './composables/useFlow';
 export * from './types/context';
 export * from './types/flow';
 export * from './types/event';
-export * from './types/translator';
 
+export { PaymentStatus, Language } from 'orchestrator-pp-core';
+export type * from 'orchestrator-pp-core';
+export type * from 'orchestrator-pp-payment-method';
 
 const PpFlow = useFlow;
 

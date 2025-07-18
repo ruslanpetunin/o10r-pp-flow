@@ -3,11 +3,12 @@ import type { EventMap } from './../types/event';
 import useContextManager from './useContextManager';
 import { useEventManager, useApi } from 'orchestrator-pp-core';
 import type { PaymentMethodFactory } from 'orchestrator-pp-payment-method';
+import paymentMethodFactoryBase from 'orchestrator-pp-payment-method';
 import useInit from './../features/useInit';
 import usePay from './../features/usePay';
 import useStatusManager from './useStatusManager';
 
-export default function(apiHost: string, paymentMethodFactory: PaymentMethodFactory): Flow {
+export default function(apiHost: string, paymentMethodFactory: PaymentMethodFactory = paymentMethodFactoryBase): Flow {
   const api = useApi(apiHost);
   const eventManager = useEventManager<EventMap>();
   const contextManager= useContextManager();
