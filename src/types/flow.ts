@@ -5,7 +5,7 @@ import type { Context } from './context';
 import type { Translator } from './translator';
 
 export interface Flow extends Omit<EventManager<EventMap>, 'emit'> {
-  context: Context;
+  context: Readonly<Context>;
 
   paymentMethods: PaymentMethod[];
   translator: Translator,
