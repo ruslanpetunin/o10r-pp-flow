@@ -5,6 +5,13 @@ import type { ContextManager } from './../types/context';
 import type { PaymentStatusManager } from './../types/paymentStatus';
 
 function hasChanges(newPaymentStatusData: PaymentStatusData, oldPaymentStatusData?: PaymentStatusData): boolean {
+  if (
+    oldPaymentStatusData?.status === PaymentStatus.AWAITING_3DS_RESULT
+    && newPaymentStatusData.status === PaymentStatus.AWAITING_3DS_RESULT
+  ) {
+    return JSON.stringify(newPaymentStatusData.threeds) !== JSON.stringify(oldPaymentStatusData.threeds);
+  }
+
   return newPaymentStatusData.status !== oldPaymentStatusData?.status;
 }
 
@@ -21,7 +28,7 @@ export default function(api: Api, contextManager: ContextManager, eventManager: 
       eventManager.emit('statusChanged', context);
     }
 
-    if (data.status === PaymentStatus.PENDING && !timerId) {
+    if (![PaymentStatus.NOT_STARTED, PaymentStatus.SUCCESS, PaymentStatus.FAILED].includes(data.status) && !timerId) {
       timerId = setTimeout(
         () => {
           if (timerId) {
