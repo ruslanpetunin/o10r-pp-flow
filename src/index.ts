@@ -6,6 +6,8 @@ export * from './types/event';
 
 export { PaymentStatus, Language } from 'orchestrator-pp-core';
 export type * from 'orchestrator-pp-core';
+
+export { isSavedCardPaymentMethod } from 'orchestrator-pp-payment-method';
 export type * from 'orchestrator-pp-payment-method';
 
 const PpFlow = useFlow;

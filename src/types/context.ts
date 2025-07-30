@@ -13,5 +13,6 @@ export interface Context {
   amount: number,
   currency: string,
   projectHash: string,
+  hasSavedCards: boolean,
   paymentStatus: PaymentStatusData,
 }

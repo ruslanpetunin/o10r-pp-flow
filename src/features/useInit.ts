@@ -6,10 +6,10 @@ import {
   PaymentStatus
 } from 'orchestrator-pp-core'
 import type { Api, EventManager, Translator } from 'orchestrator-pp-core';
-import type { PaymentMethod, PaymentMethodFactory } from 'orchestrator-pp-payment-method';
 import type { ContextManager } from './../types/context';
 import type { EventMap } from './../types/event';
 import type { PaymentStatusManager } from './../types/paymentStatus';
+import type { PaymentMethodManager } from './../types/paymentMethod';
 
 function makeTranslator(api: Api, eventManager: EventManager<EventMap>): Translator {
   const translator = useTranslator(api);
@@ -26,7 +26,7 @@ async function askPaymentStatus(paymentStatusManager: PaymentStatusManager, even
   const cookies = useCookies();
   const alreadyStartedKey = 'opp_started_' + token.split('.').slice(-1)[0];
 
-  // we wait for payment status result only if we now that user has already started payment
+  // we wait for payment status result only if we know that user has already started payment
   if (cookies.get(alreadyStartedKey)) {
     await paymentStatusManager.request();
   } else {
@@ -48,11 +48,10 @@ export default function(
   contextManager: ContextManager,
   eventManager: EventManager<EventMap>,
   paymentStatusManager: PaymentStatusManager,
-  paymentMethodFactory: PaymentMethodFactory
+  paymentMethodManager: PaymentMethodManager
 ) {
   const context = contextManager.getContext();
   const translator = makeTranslator(api, eventManager);
-  const paymentMethods: PaymentMethod[] = [];
 
   const init = async (token: string) => {
     const initData = useJwtToken(token);
@@ -61,21 +60,19 @@ export default function(
       translator.setLanguage(Language.EN)
     ]);
 
-    paymentMethods.push(
-      ...(await paymentMethodFactory(initData, projectSettings))
-    );
-
     contextManager.setInitData(initData);
     contextManager.setToken(token);
 
-    await askPaymentStatus(paymentStatusManager, eventManager, token);
+    await Promise.all([
+      paymentMethodManager.load(projectSettings),
+      askPaymentStatus(paymentStatusManager, eventManager, token)
+    ]);
 
     eventManager.emit('init', context);
   }
 
   return {
     translator,
-    paymentMethods,
 
     init
   };
