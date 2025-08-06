@@ -27,7 +27,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "orchestrator-pp-core": "^3.4.0",
-    "orchestrator-pp-payment-method": "^4.0.0"
+    "orchestrator-pp-core": "^4.0.0",
+    "orchestrator-pp-payment-method": "^5.0.0"
   }
 }
