@@ -1,5 +1,5 @@
-import type { ProjectSettingsData } from 'orchestrator-pp-core';
-import type { PaymentMethod } from 'orchestrator-pp-payment-method';
+import type { ProjectSettingsData } from 'o10r-pp-core';
+import type { PaymentMethod } from 'o10r-pp-payment-method';
 
 export interface PaymentMethodManager {
   list: PaymentMethod[],

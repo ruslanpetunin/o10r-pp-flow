@@ -1,6 +1,6 @@
-import { type Api, PaymentStatus } from 'orchestrator-pp-core';
+import { type Api, PaymentStatus } from 'o10r-pp-core';
 import type { ContextManager } from './../types/context';
-import { useForm } from 'orchestrator-pp-payment-method';
+import { useForm } from 'o10r-pp-payment-method';
 
 export default function(api: Api, contextManager: ContextManager) {
   const context = contextManager.getContext();

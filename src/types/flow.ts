@@ -1,5 +1,5 @@
-import type { EventManager, Translator } from 'orchestrator-pp-core';
-import type { PaymentMethod } from 'orchestrator-pp-payment-method';
+import type { EventManager, Translator } from 'o10r-pp-core';
+import type { PaymentMethod } from 'o10r-pp-payment-method';
 import type { EventMap } from './event';
 import type { Context } from './context';
 

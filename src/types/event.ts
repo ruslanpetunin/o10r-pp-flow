@@ -1,5 +1,5 @@
 import type { Context } from './context';
-import type { TranslationEventMap } from 'orchestrator-pp-core';
+import type { TranslationEventMap } from 'o10r-pp-core';
 
 export type EventMap = {
   init: (context: Readonly<Context>) => void;

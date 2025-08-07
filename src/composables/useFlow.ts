@@ -1,8 +1,8 @@
 import type { Flow } from './../types/flow';
 import type { EventMap } from './../types/event';
 import useContextManager from './useContextManager';
-import { useEventManager, useApi } from 'orchestrator-pp-core';
-import type { PaymentMethodFactory } from 'orchestrator-pp-payment-method';
+import { useEventManager, useApi } from 'o10r-pp-core';
+import type { PaymentMethodFactory } from 'o10r-pp-payment-method';
 import useInit from './../features/useInit';
 import usePay from './../features/usePay';
 import useClarify from './../features/useClarify';

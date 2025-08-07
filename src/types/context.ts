@@ -1,4 +1,4 @@
-import type { InitData, PaymentStatusData } from 'orchestrator-pp-core';
+import type { InitData, PaymentStatusData } from 'o10r-pp-core';
 
 export interface ContextManager {
   getContext: () => Readonly<Context>,

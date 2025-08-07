@@ -1,6 +1,6 @@
 {
-  "name": "orchestrator-pp-flow",
-  "version": "6.1.0",
+  "name": "o10r-pp-flow",
+  "version": "0.0.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ruslanpetunin/orchestrator-pp-flow"
+    "url": "git+https://github.com/ruslanpetunin/o10r-pp-flow"
   },
   "scripts": {
     "build": "tsup src/index.ts --dts --format esm,cjs --clean --tsconfig tsconfig.build.json"
@@ -27,7 +27,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "orchestrator-pp-core": "^4.0.0",
-    "orchestrator-pp-payment-method": "^5.0.0"
+    "o10r-pp-core": "^0.1.0",
+    "o10r-pp-payment-method": "^0.1.0"
   }
 }

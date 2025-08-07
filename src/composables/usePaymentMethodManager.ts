@@ -1,7 +1,7 @@
-import type { PaymentMethod, PaymentMethodFactory } from 'orchestrator-pp-payment-method';
-import type { Api, EventManager, ProjectSettingsData } from 'orchestrator-pp-core';
+import type { PaymentMethod, PaymentMethodFactory } from 'o10r-pp-payment-method';
+import type { Api, EventManager, ProjectSettingsData } from 'o10r-pp-core';
 import type { ContextManager } from './../types/context';
-import useBasePaymentMethodFactory, { isSavedCardPaymentMethod } from 'orchestrator-pp-payment-method';
+import useBasePaymentMethodFactory, { isSavedCardPaymentMethod } from 'o10r-pp-payment-method';
 import type { EventMap } from './../types/event';
 import type { PaymentMethodManager } from './../types/paymentMethod';
 

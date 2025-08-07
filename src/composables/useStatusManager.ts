@@ -1,5 +1,5 @@
-import { PaymentStatus } from 'orchestrator-pp-core';
-import type { Api, EventManager, PaymentStatusData } from 'orchestrator-pp-core';
+import { PaymentStatus } from 'o10r-pp-core';
+import type { Api, EventManager, PaymentStatusData } from 'o10r-pp-core';
 import type { EventMap } from './../types/event';
 import type { ContextManager } from './../types/context';
 import type { PaymentStatusManager } from './../types/paymentStatus';

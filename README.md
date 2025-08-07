@@ -1,6 +1,6 @@
-# orchestrator-pp-flow
+# o10r-pp-flow
 
-`orchestrator-pp-flow` is a TypeScript library that helps you build your own payment page.
+`o10r-pp-flow` is a TypeScript library that helps you build your own payment page.
 
 It provides a flow object with all the necessary methods, data, and events required to initialize and complete a payment process.
 
@@ -9,7 +9,7 @@ It provides a flow object with all the necessary methods, data, and events requi
 ## 📦 Installation
 
 ```bash
-npm install orchestrator-pp-flow
+npm install o10r-pp-flow
 ```
 
 > Requires **Node.js v24+**
@@ -20,10 +20,10 @@ npm install orchestrator-pp-flow
 
 ### 1. Create a flow instance
 
-To get started, create a flow instance by passing the API host and a payment method factory (implementing `PaymentMethodFactory` from [`orchestrator-pp-core`](https://github.com/ruslanpetunin/orchestrator-pp-core)):
+To get started, create a flow instance by passing the API host and a payment method factory (implementing `PaymentMethodFactory` from [`o10r-pp-core`](https://github.com/ruslanpetunin/o10r-pp-core)):
 
 ```ts
-import PPFlow from 'orchestrator-pp-flow';
+import PPFlow from 'o10r-pp-flow';
 import paymentMethodFactory from '...';
 
 const apiHost = 'https://example.com';

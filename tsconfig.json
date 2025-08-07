@@ -3,8 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "orchestrator-pp-core": ["./../orchestrator-pp-core/src", "orchestrator-pp-core"],
-      "orchestrator-pp-payment-method": ["./../orchestrator-pp-payment-method/src", "orchestrator-pp-payment-method"],
+      "o10r-pp-core": ["./../o10r-pp-core/src", "o10r-pp-core"],
+      "o10r-pp-payment-method": ["./../o10r-pp-payment-method/src", "o10r-pp-payment-method"],
     }
   },
 }

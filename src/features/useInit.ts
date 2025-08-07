@@ -4,8 +4,8 @@ import {
   useTranslator,
   useCookies,
   PaymentStatus
-} from 'orchestrator-pp-core'
-import type { Api, EventManager, Translator } from 'orchestrator-pp-core';
+} from 'o10r-pp-core'
+import type { Api, EventManager, Translator } from 'o10r-pp-core';
 import type { ContextManager } from './../types/context';
 import type { EventMap } from './../types/event';
 import type { PaymentStatusManager } from './../types/paymentStatus';

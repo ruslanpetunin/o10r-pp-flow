@@ -1,6 +1,6 @@
 import type { Context, ContextManager } from '../types/context';
-import type { InitData, PaymentStatusData } from 'orchestrator-pp-core';
-import { PaymentStatus } from 'orchestrator-pp-core';
+import type { InitData, PaymentStatusData } from 'o10r-pp-core';
+import { PaymentStatus } from 'o10r-pp-core';
 
 export default function() {
   const context: Context = {
