@@ -4,26 +4,45 @@ import {
   useTranslator,
   useCookies,
   PaymentStatus
-} from 'o10r-pp-core'
+} from 'o10r-pp-core';
 import type { Api, EventManager, Translator } from 'o10r-pp-core';
 import type { ContextManager } from './../types/context';
 import type { EventMap } from './../types/event';
 import type { PaymentStatusManager } from './../types/paymentStatus';
 import type { PaymentMethodManager } from './../types/paymentMethod';
 
+const languageCookieKey = 'opp_language';
+const cookies = useCookies();
+
+function isLanguage(value: string): value is Language {
+  return Object.values(Language).includes(value as Language);
+}
+
+function getDefaultLanguage(): Language {
+  const languageFromCookie = cookies.get(languageCookieKey) || '';
+
+  if (isLanguage(languageFromCookie)) {
+    return languageFromCookie;
+  }
+
+  return Language.EN;
+}
+
 function makeTranslator(api: Api, eventManager: EventManager<EventMap>): Translator {
   const translator = useTranslator(api);
 
   translator.on(
     'languageChanged',
-    (lang) => eventManager.emit('languageChanged', lang)
+    (lang) => {
+      cookies.set(languageCookieKey, lang, { expires: 1 });
+      eventManager.emit('languageChanged', lang);
+    }
   );
 
   return translator;
 }
 
 async function askPaymentStatus(paymentStatusManager: PaymentStatusManager, eventManager: EventManager<EventMap>, token: string) {
-  const cookies = useCookies();
   const alreadyStartedKey = 'opp_started_' + token.split('.').slice(-1)[0];
 
   // we wait for payment status result only if we know that user has already started payment
@@ -57,7 +76,7 @@ export default function(
     const initData = useJwtToken(token);
     const [ projectSettings ] = await Promise.all([
       api.getProjectSettings(initData.project_hash),
-      translator.setLanguage(Language.EN)
+      translator.setLanguage(getDefaultLanguage())
     ]);
 
     contextManager.setInitData(initData);
