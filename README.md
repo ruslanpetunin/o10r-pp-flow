@@ -1,8 +1,6 @@
 # o10r-pp-flow
 
-`o10r-pp-flow` is a TypeScript library that helps you build your own payment page.
-
-It provides a flow object with all the necessary methods, data, and events required to initialize and complete a payment process.
+`o10r-pp-flow` is a TypeScript library for building payment pages. It provides a single flow object with the methods, data and events required to initialize the payment context, handle user input and finalize the transaction.
 
 ---
 
@@ -16,11 +14,9 @@ npm install o10r-pp-flow
 
 ---
 
-## ⚡️ Quick Start
+## 🚀 Usage
 
-### 1. Create a flow instance
-
-To get started, create a flow instance by passing the API host and a payment method factory (implementing `PaymentMethodFactory` from [`o10r-pp-core`](https://github.com/ruslanpetunin/o10r-pp-core)):
+### Create a flow
 
 ```ts
 import PPFlow from 'o10r-pp-flow';
@@ -30,61 +26,74 @@ const apiHost = 'https://example.com';
 const flow = PPFlow(apiHost, paymentMethodFactory);
 ```
 
----
-
-### 2. Subscribe to events
-
-You can subscribe to events at any point, but if you want to catch events emitted during initialization, subscribe before calling `init`:
+### Subscribe to events
 
 ```ts
-flow.on('init', (context) => {
-  console.log(context);
-});
+flow.on('init', (ctx) => console.log('Initialized', ctx));
+flow.on('statusChanged', (ctx) => console.log('Status', ctx.paymentStatus.status));
+flow.on('paymentMethodsChanged', () => console.log('Methods', flow.paymentMethods));
+flow.on('languageChanged', (lang) => console.log('Language', lang));
 ```
 
-> A full list of events and their handler parameters is defined in the exported `EventMap` type.
-
----
-
-### 3. Initialize the flow
-
-Call the `init` method with a JWT token to load the payment context and project settings:
+### Initialize the flow
 
 ```ts
 const jwtToken = '...';
 await flow.init(jwtToken);
 ```
 
-Or use event-based initialization:
+`init` loads project settings, payment methods and payment status. You may also call `flow.init(jwtToken)` without awaiting and react to the `init` event.
+
+### Access the context
 
 ```ts
-flow.init(jwtToken);
+console.log(flow.context.amount);
+console.log(flow.context.currency);
+```
 
-flow.on('init', (context) => {
-  console.log(context);
-});
+The context object is populated after `init` and is emitted with every event handler.
+
+### Work with payment methods
+
+```ts
+const method = flow.paymentMethods[0];
+
+// Remove a saved payment method
+await flow.remove(method);
+```
+
+Listen to `paymentMethodsChanged` to track updates to the `paymentMethods` array.
+
+### Change language
+
+```ts
+import { Language } from 'o10r-pp-core';
+
+await flow.translator.setLanguage(Language.FR);
+console.log(flow.translator.t('PAY'));
+```
+
+### Pay
+
+```ts
+const method = flow.paymentMethods[0];
+// Collect payment data using method's own API if needed
+await flow.pay(method);
+```
+
+After `pay`, the latest payment status is requested automatically and emitted via `statusChanged`.
+
+### Clarify additional data
+
+```ts
+import { PaymentStatus } from 'o10r-pp-core';
+
+if (flow.context.paymentStatus.status === PaymentStatus.AWAITING_CLARIFICATION) {
+  await flow.clarify({ code: '123456' });
+}
 ```
 
 ---
 
-### 4. Use payment context
+See the exported `Flow`, `Context`, `EventMap` and payment method types for complete type information.
 
-After initialization, you can access payment data via the flow context:
-
-```ts
-console.log(flow.context.getAmount());
-```
-
-Or from the event handler:
-
-```ts
-flow.on('init', (context) => {
-  console.log(context.getAmount());
-});
-```
-
-> Note: the context is only populated **after** calling `flow.init`. Accessing it before will return empty or default values (e.g., amount = 0).
-
-A full description of context properties is available in the exported `Context` interface.
-
----
