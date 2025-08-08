@@ -11,6 +11,8 @@ export interface ContextManager {
 export interface Context {
   token: string,
   amount: number,
+  paymentId: string,
+  paymentDescription?: string,
   currency: string,
   projectHash: string,
   hasSavedCards: boolean,

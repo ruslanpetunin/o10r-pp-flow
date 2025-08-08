@@ -7,6 +7,7 @@ export default function() {
     token: '',
     amount: 0,
     currency: '',
+    paymentId: '',
     projectHash: '',
     hasSavedCards: false,
     paymentStatus: {
@@ -35,6 +36,8 @@ export default function() {
     setInitData: (data: InitData) => {
       context.amount = data.amount;
       context.currency = data.currency;
+      context.paymentId = data.payment_id;
+      context.paymentDescription = data.payment_desc;
       context.projectHash = data.project_hash;
       context.hasSavedCards = data.has_saved_cards || false;
     },
