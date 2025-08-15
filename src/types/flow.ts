@@ -10,7 +10,7 @@ export interface Flow extends Omit<EventManager<EventMap>, 'emit'> {
   translator: Translator,
   formatter: Formatter,
 
-  init: (token: string) => Promise<void>;
+  init: (sid: string) => Promise<void>;
   remove: (method: PaymentMethod) => Promise<void>;
   pay: (method: PaymentMethod) => Promise<void>;
   clarify: (data: Record<string, unknown>) => Promise<void>;

@@ -4,12 +4,10 @@ import { PaymentStatus } from 'o10r-pp-core';
 
 export default function() {
   const context: Context = {
-    token: '',
+    sid: '',
     amount: 0,
     currency: '',
     paymentId: '',
-    projectHash: '',
-    hasSavedCards: false,
     paymentStatus: {
       status: PaymentStatus.NOT_STARTED,
     }
@@ -34,15 +32,14 @@ export default function() {
       context.paymentStatus = data;
     },
     setInitData: (data: InitData) => {
-      context.amount = data.amount;
-      context.currency = data.currency;
-      context.paymentId = data.payment_id;
-      context.paymentDescription = data.payment_desc;
-      context.projectHash = data.project_hash;
-      context.hasSavedCards = data.has_saved_cards || false;
+      context.amount = data.payment.amount;
+      context.currency = data.payment.currency;
+      context.paymentId = data.payment.id;
+      context.paymentDescription = data.payment.description;
+      context.customerId = data.payment.customer_id;
     },
-    setToken: (token: string) => {
-      context.token = token;
+    setSid: (sid: string) => {
+      context.sid = sid;
     },
   };
 

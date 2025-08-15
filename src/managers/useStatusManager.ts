@@ -20,7 +20,7 @@ export default function(api: Api, contextManager: ContextManager, eventManager: 
   let timerId: ReturnType<typeof setTimeout> | null = null;
 
   const request = async () => {
-    const data = await api.getPaymentStatus(context.token);
+    const data = await api.getPaymentStatus(context.sid);
 
     if (hasChanges(data, context.paymentStatus)) {
       contextManager.setPaymentStatusData(data);

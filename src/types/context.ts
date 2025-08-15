@@ -5,16 +5,15 @@ export interface ContextManager {
 
   setPaymentStatusData: (data: PaymentStatusData) => void,
   setInitData: (data: InitData) => void,
-  setToken: (token: string) => void,
+  setSid: (sid: string) => void,
 }
 
 export interface Context {
-  token: string,
+  sid: string,
   amount: number,
   paymentId: string,
   paymentDescription?: string,
   currency: string,
-  projectHash: string,
-  hasSavedCards: boolean,
+  customerId?: number,
   paymentStatus: PaymentStatusData,
 }

@@ -15,7 +15,7 @@ export default function(
   const list: PaymentMethod[] = [];
 
   async function load(projectSettings: ProjectSettingsData) {
-    const pmFactory = paymentMethodFactory || useBasePaymentMethodFactory(api, context.token);
+    const pmFactory = paymentMethodFactory || useBasePaymentMethodFactory(api, context.sid);
 
     list.push(
       ...await Promise.all(
@@ -25,9 +25,9 @@ export default function(
 
     eventManager.emit('paymentMethodsChanged', context);
 
-    if (context.hasSavedCards) {
+    if (context.customerId) {
       // We don`t wait it. We emit an event instead. It allows us to render the page much faster
-      api.getSavedCards(context.token)
+      api.getSavedCards(context.sid)
         .then(
           async (cards) => {
             list.unshift(

@@ -13,7 +13,7 @@ export default function(api: Api, contextManager: ContextManager) {
 
       if (validationResult.isValid) {
         try {
-          await api.clarify(context.token, data);
+          await api.clarify(context.sid, data);
 
           return;
         } catch {

@@ -1,6 +1,5 @@
 import {
   Language,
-  useJwtToken,
   useTranslator,
   useCookies,
   PaymentStatus
@@ -42,8 +41,8 @@ function makeTranslator(api: Api, eventManager: EventManager<EventMap>): Transla
   return translator;
 }
 
-async function askPaymentStatus(paymentStatusManager: PaymentStatusManager, eventManager: EventManager<EventMap>, token: string) {
-  const alreadyStartedKey = 'opp_started_' + token.split('.').slice(-1)[0];
+async function askPaymentStatus(paymentStatusManager: PaymentStatusManager, eventManager: EventManager<EventMap>, sid: string) {
+  const alreadyStartedKey = `opp_started_${sid}`;
 
   // we wait for payment status result only if we know that user has already started payment
   if (cookies.get(alreadyStartedKey)) {
@@ -72,19 +71,18 @@ export default function(
   const context = contextManager.getContext();
   const translator = makeTranslator(api, eventManager);
 
-  const init = async (token: string) => {
-    const initData = useJwtToken(token);
-    const [ projectSettings ] = await Promise.all([
-      api.getProjectSettings(initData.project_hash),
+  const init = async (sid: string) => {
+    const [ initData ] = await Promise.all([
+      api.getInitData(sid),
       translator.setLanguage(getDefaultLanguage())
     ]);
 
     contextManager.setInitData(initData);
-    contextManager.setToken(token);
+    contextManager.setSid(sid);
 
     await Promise.all([
-      paymentMethodManager.load(projectSettings),
-      askPaymentStatus(paymentStatusManager, eventManager, token)
+      paymentMethodManager.load(initData.project),
+      askPaymentStatus(paymentStatusManager, eventManager, sid)
     ]);
 
     eventManager.emit('init', context);
