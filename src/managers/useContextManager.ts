@@ -1,5 +1,5 @@
 import type { Context, ContextManager } from '../types/context';
-import type { InitData, PaymentStatusData } from 'o10r-pp-core';
+import type { PaymentStatusData, SessionData } from 'o10r-pp-core';
 import { PaymentStatus } from 'o10r-pp-core';
 
 export default function() {
@@ -31,12 +31,12 @@ export default function() {
     setPaymentStatusData: (data: PaymentStatusData) => {
       context.paymentStatus = data;
     },
-    setInitData: (data: InitData) => {
-      context.amount = data.payment.amount;
-      context.currency = data.payment.currency;
-      context.paymentId = data.payment.id;
-      context.paymentDescription = data.payment.description;
-      context.customerId = data.payment.customer_id;
+    setSessionData: (data: SessionData) => {
+      context.amount = data.details.amount;
+      context.currency = data.details.currency;
+      context.paymentId = data.details.paymentId;
+      context.paymentDescription = data.details.paymentDescription;
+      context.customerId = data.details.customerId;
     },
     setSid: (sid: string) => {
       context.sid = sid;

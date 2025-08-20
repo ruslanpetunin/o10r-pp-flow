@@ -1,5 +1,5 @@
 import type { PaymentMethod, PaymentMethodFactory } from 'o10r-pp-payment-method';
-import type { Api, EventManager, ProjectSettingsData } from 'o10r-pp-core';
+import type { Api, EventManager, PaymentMethodData } from 'o10r-pp-core';
 import type { ContextManager } from './../types/context';
 import useBasePaymentMethodFactory, { isSavedCardPaymentMethod } from 'o10r-pp-payment-method';
 import type { EventMap } from './../types/event';
@@ -14,12 +14,12 @@ export default function(
   const context = contextManager.getContext();
   const list: PaymentMethod[] = [];
 
-  async function load(projectSettings: ProjectSettingsData) {
+  async function load(paymentMethodsData: PaymentMethodData[]) {
     const pmFactory = paymentMethodFactory || useBasePaymentMethodFactory(api, context.sid);
 
     list.push(
       ...await Promise.all(
-        projectSettings.methods.map(config => pmFactory.fromConfig(config))
+        paymentMethodsData.map(config => pmFactory.fromConfig(config))
       )
     );
 

@@ -72,16 +72,16 @@ export default function(
   const translator = makeTranslator(api, eventManager);
 
   const init = async (sid: string) => {
-    const [ initData ] = await Promise.all([
-      api.getInitData(sid),
+    const [ sessionData ] = await Promise.all([
+      api.getSession(sid),
       translator.setLanguage(getDefaultLanguage())
     ]);
 
-    contextManager.setInitData(initData);
+    contextManager.setSessionData(sessionData);
     contextManager.setSid(sid);
 
     await Promise.all([
-      paymentMethodManager.load(initData.project),
+      paymentMethodManager.load(sessionData.methods),
       askPaymentStatus(paymentStatusManager, eventManager, sid)
     ]);
 
