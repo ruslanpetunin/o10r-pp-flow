@@ -72,20 +72,28 @@ export default function(
   const translator = makeTranslator(api, eventManager);
 
   const init = async (sid: string) => {
-    const [ sessionData ] = await Promise.all([
-      api.getSession(sid),
-      translator.setLanguage(getDefaultLanguage())
-    ]);
+    try {
+      const [ sessionData ] = await Promise.all([
+        api.getSession(sid),
+        translator.setLanguage(getDefaultLanguage())
+      ]);
 
-    contextManager.setSessionData(sessionData);
-    contextManager.setSid(sid);
+      contextManager.setSessionData(sessionData);
+      contextManager.setSid(sid);
 
-    await Promise.all([
-      paymentMethodManager.load(sessionData.methods),
-      askPaymentStatus(paymentStatusManager, eventManager, sid)
-    ]);
+      await Promise.all([
+        paymentMethodManager.load(sessionData.methods),
+        askPaymentStatus(paymentStatusManager, eventManager, sid)
+      ]);
 
-    eventManager.emit('init', context);
+      eventManager.emit('init', context);
+    } catch {
+      const error = new Error('Failed to initialize flow');
+
+      eventManager.emit('error', context, error);
+
+      throw error;
+    }
   }
 
   return {
