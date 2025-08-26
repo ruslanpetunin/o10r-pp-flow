@@ -10,6 +10,10 @@ export default function() {
     paymentId: '',
     paymentStatus: {
       status: PaymentStatus.NOT_STARTED,
+      payment: {
+        status: PaymentStatus.NOT_STARTED,
+        method_code: undefined
+      }
     }
   };
 
@@ -32,11 +36,11 @@ export default function() {
       context.paymentStatus = data;
     },
     setSessionData: (data: SessionData) => {
-      context.amount = data.details.amount;
-      context.currency = data.details.currency;
-      context.paymentId = data.details.paymentId;
-      context.paymentDescription = data.details.paymentDescription;
-      context.customerId = data.details.customerId;
+      context.amount = data.payment.amount;
+      context.currency = data.payment.currency;
+      context.paymentId = data.payment.paymentId;
+      context.paymentDescription = data.payment.paymentDescription;
+      context.customerId = data.payment.customerId;
     },
     setSid: (sid: string) => {
       context.sid = sid;

@@ -14,4 +14,5 @@ export interface Flow extends Omit<EventManager<EventMap>, 'emit'> {
   remove: (method: PaymentMethod) => Promise<void>;
   pay: (method: PaymentMethod) => Promise<void>;
   clarify: (data: Record<string, unknown>) => Promise<void>;
+  completeRedirect: (hash: string) => void;
 }

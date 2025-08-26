@@ -41,7 +41,11 @@ function makeTranslator(api: Api, eventManager: EventManager<EventMap>): Transla
   return translator;
 }
 
-async function askPaymentStatus(paymentStatusManager: PaymentStatusManager, eventManager: EventManager<EventMap>, sid: string) {
+async function askPaymentStatus(
+  paymentStatusManager: PaymentStatusManager,
+  eventManager: EventManager<EventMap>,
+  sid: string
+) {
   const alreadyStartedKey = `opp_started_${sid}`;
 
   // we wait for payment status result only if we know that user has already started payment
@@ -87,10 +91,12 @@ export default function(
       ]);
 
       eventManager.emit('init', context);
-    } catch {
+    } catch (e) {
       const error = new Error('Failed to initialize flow');
 
       eventManager.emit('error', context, error);
+
+      console.error(e);
 
       throw error;
     }

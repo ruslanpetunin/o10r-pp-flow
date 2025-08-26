@@ -7,7 +7,7 @@ export default function(api: Api, contextManager: ContextManager) {
 
   const clarify = async (data: Record<string, unknown>) => {
     if (context.paymentStatus.status === PaymentStatus.AWAITING_CLARIFICATION) {
-      const { validate } = useForm(context.paymentStatus.clarification_fields);
+      const { validate } = useForm(context.paymentStatus.clarification);
 
       const validationResult = await validate(data);
 

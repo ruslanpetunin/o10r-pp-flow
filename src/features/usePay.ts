@@ -15,7 +15,7 @@ export default function(
       const context = contextManager.getContext();
       const collectedData = method.getCollectedData();
 
-      await api.pay(context.sid, collectedData);
+      await api.pay(context.sid, method.code, collectedData);
 
       eventManager.emit('pay', context);
 

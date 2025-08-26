@@ -8,6 +8,7 @@ import usePaymentMethodManager from './managers/usePaymentMethodManager';
 import useInit from './features/useInit';
 import usePay from './features/usePay';
 import useClarify from './features/useClarify';
+import useRedirect from './features/useRedirect';
 
 export * from './types/context';
 export * from './types/flow';
@@ -31,6 +32,7 @@ export default function(apiHost: string, paymentMethodFactory?: PaymentMethodFac
   const { translator, init } = useInit(api, contextManager,eventManager, paymentStatusManager, paymentMethodManager);
   const { pay } = usePay(api, contextManager, eventManager, paymentStatusManager);
   const { clarify } = useClarify(api, contextManager);
+  const { completeRedirect } = useRedirect(paymentStatusManager);
 
   const { on, off } = eventManager;
   const { list: paymentMethods, remove } = paymentMethodManager;
@@ -46,6 +48,7 @@ export default function(apiHost: string, paymentMethodFactory?: PaymentMethodFac
     remove,
     pay,
     clarify,
+    completeRedirect,
 
     on,
     off
