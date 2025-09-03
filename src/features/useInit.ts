@@ -46,17 +46,17 @@ async function askPaymentStatus(
   eventManager: EventManager<EventMap>,
   sid: string
 ) {
-  const alreadyStartedKey = `opp_started_${sid}`;
+  const alreadyStartedKey = `opp_started`;
 
   // we wait for payment status result only if we know that user has already started payment
-  if (cookies.get(alreadyStartedKey)) {
+  if (cookies.get(alreadyStartedKey) === sid) {
     await paymentStatusManager.request();
   } else {
     eventManager.on(
       'statusChanged',
       (context) => {
         if (context.paymentStatus.status !== PaymentStatus.NOT_STARTED) {
-          cookies.set(alreadyStartedKey, '1', { expires: 1 });
+          cookies.set(alreadyStartedKey, sid, { expires: 1 });
         }
       }
     );
