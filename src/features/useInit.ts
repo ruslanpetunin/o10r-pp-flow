@@ -24,6 +24,16 @@ function getDefaultLanguage(): Language {
     return languageFromCookie;
   }
 
+  const browserLanguages = (navigator.languages || [navigator.language] || []) as string[];
+
+  for (const language of browserLanguages) {
+    const short = language.split('-')[0].toLowerCase(); // normalize: "en-US" → "en"
+
+    if (isLanguage(short)) {
+      return short;
+    }
+  }
+
   return Language.EN;
 }
 
