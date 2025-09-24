@@ -40,7 +40,7 @@ export default function() {
       context.currency = data.payment.currency;
       context.paymentId = data.payment.paymentId;
       context.paymentDescription = data.payment.paymentDescription;
-      context.customerId = data.payment.customerId;
+      context.customerId = data.customer.id;
     },
     setSid: (sid: string) => {
       context.sid = sid;
