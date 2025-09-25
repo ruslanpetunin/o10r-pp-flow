@@ -1,6 +1,6 @@
 {
   "name": "o10r-pp-flow",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
