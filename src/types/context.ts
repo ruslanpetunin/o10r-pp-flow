@@ -1,4 +1,4 @@
-import type { SessionData, PaymentStatusData } from 'o10r-pp-core';
+import type { SessionData, PaymentStatusData, PaymentIntentData, CustomerData } from 'o10r-pp-core';
 
 export interface ContextManager {
   getContext: () => Readonly<Context>,
@@ -10,10 +10,7 @@ export interface ContextManager {
 
 export interface Context {
   sid: string,
-  amount: number,
-  paymentId: string,
-  paymentDescription?: string,
-  currency: string,
-  customerId?: number,
+  payment: PaymentIntentData,
+  customer: CustomerData,
   paymentStatus: PaymentStatusData,
 }

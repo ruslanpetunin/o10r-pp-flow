@@ -1,9 +1,20 @@
 import type { PaymentMethod, PaymentMethodFactory } from 'o10r-pp-payment-method';
 import type { Api, EventManager, PaymentMethodData } from 'o10r-pp-core';
-import type { ContextManager } from './../types/context';
+import type { ContextManager, Context } from './../types/context';
 import useBasePaymentMethodFactory, { isSavedCardPaymentMethod } from 'o10r-pp-payment-method';
 import type { EventMap } from './../types/event';
 import type { PaymentMethodManager } from './../types/paymentMethod';
+import { useBillingFields } from "o10r-pp-core";
+
+const billingFields = useBillingFields();
+
+function makePaymentMethod(context: Context, factory: PaymentMethodFactory, config: PaymentMethodData) {
+  if (context.customer.billing?.mode === 'required') {
+    config.schema = [...config.schema, ...billingFields];
+  }
+
+  return factory.fromConfig(config);
+}
 
 export default function(
   api: Api,
@@ -19,13 +30,13 @@ export default function(
 
     list.push(
       ...await Promise.all(
-        paymentMethodsData.map(config => pmFactory.fromConfig(config))
+        paymentMethodsData.map(config => makePaymentMethod(context, pmFactory, config))
       )
     );
 
     eventManager.emit('paymentMethodsChanged', context);
 
-    if (context.customerId) {
+    if (context.customer.id) {
       // We don`t wait it. We emit an event instead. It allows us to render the page much faster
       api.getSavedCards(context.sid)
         .then(

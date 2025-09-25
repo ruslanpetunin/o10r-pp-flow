@@ -5,9 +5,12 @@ import { PaymentStatus } from 'o10r-pp-core';
 export default function() {
   const context: Context = {
     sid: '',
-    amount: 0,
-    currency: '',
-    paymentId: '',
+    payment: {
+      amount: 0,
+      currency: '',
+      paymentId: '',
+    },
+    customer: {},
     paymentStatus: {
       status: PaymentStatus.NOT_STARTED,
       payment: {
@@ -36,11 +39,8 @@ export default function() {
       context.paymentStatus = data;
     },
     setSessionData: (data: SessionData) => {
-      context.amount = data.payment.amount;
-      context.currency = data.payment.currency;
-      context.paymentId = data.payment.paymentId;
-      context.paymentDescription = data.payment.paymentDescription;
-      context.customerId = data.customer.id;
+      context.payment = data.payment;
+      context.customer = data.customer;
     },
     setSid: (sid: string) => {
       context.sid = sid;
