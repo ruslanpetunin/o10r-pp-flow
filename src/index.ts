@@ -1,6 +1,6 @@
 import type { PaymentMethodFactory } from 'o10r-pp-payment-method';
 import type { Flow } from './types/flow';
-import { useApi, useEventManager, useFormatter } from 'o10r-pp-core';
+import { useApi, useEventManager, useFormatter, type HttpMiddleware } from 'o10r-pp-core';
 import type { EventMap } from './types/event';
 import useContextManager from './managers/useContextManager';
 import useStatusManager from './managers/useStatusManager';
@@ -20,8 +20,8 @@ export type * from 'o10r-pp-core';
 export { isSavedCardPaymentMethod } from 'o10r-pp-payment-method';
 export type * from 'o10r-pp-payment-method';
 
-export default function(apiHost: string, paymentMethodFactory?: PaymentMethodFactory): Flow {
-  const api = useApi(apiHost);
+export default function(apiHost: string, httpMiddleware?: HttpMiddleware, paymentMethodFactory?: PaymentMethodFactory): Flow {
+  const api = useApi(apiHost, httpMiddleware);
   const formatter = useFormatter();
   const eventManager = useEventManager<EventMap>();
   const contextManager= useContextManager();
