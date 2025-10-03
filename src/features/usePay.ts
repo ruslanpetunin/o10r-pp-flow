@@ -10,10 +10,10 @@ export default function(
   eventManager: EventManager<EventMap>,
   paymentStatusManager: PaymentStatusManager
 ) {
-  const pay = async (method: PaymentMethod) => {
+  const pay = async (method: PaymentMethod, additionalData: Record<string, unknown>) => {
     try {
       const context = contextManager.getContext();
-      const collectedData = method.getCollectedData();
+      const collectedData = Object.assign(method.getCollectedData(), additionalData);
 
       await api.pay(context.sid, method.code, collectedData);
 
