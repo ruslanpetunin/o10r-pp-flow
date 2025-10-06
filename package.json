@@ -27,7 +27,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "o10r-pp-core": "^0.5.11",
+    "o10r-pp-core": "^0.5.12",
     "o10r-pp-payment-method": "^0.1.3"
   }
 }

@@ -36,7 +36,7 @@ export default function(
 
     eventManager.emit('paymentMethodsChanged', context);
 
-    if (context.customer.id) {
+    if (list.map(m => m.code).includes('card') && context.customer.id) {
       // We don`t wait it. We emit an event instead. It allows us to render the page much faster
       api.getSavedCards(context.sid)
         .then(
