@@ -4,7 +4,7 @@ import type { ContextManager, Context } from './../types/context';
 import useBasePaymentMethodFactory, { isSavedCardPaymentMethod } from 'o10r-pp-payment-method';
 import type { EventMap } from './../types/event';
 import type { PaymentMethodManager } from './../types/paymentMethod';
-import { useBillingFields } from "o10r-pp-core";
+import { useBillingFields, useConsentFields } from "o10r-pp-core";
 
 const billingFields = useBillingFields();
 
@@ -12,6 +12,8 @@ function makePaymentMethod(context: Context, factory: PaymentMethodFactory, conf
   if (context.customer.billing?.mode === 'required') {
     config.schema = [...config.schema, ...billingFields];
   }
+
+  config.schema = [...config.schema, ...useConsentFields(context.consent)];
 
   return factory.fromConfig(config);
 }
