@@ -58,6 +58,17 @@ async function askPaymentStatus(
 ) {
   const alreadyStartedKey = `opp_started`;
 
+  eventManager.on(
+    'statusChanged',
+    (context) => {
+      if ([PaymentStatus.SUCCESS, PaymentStatus.FAILED].includes(context.paymentStatus.status)) {
+        if (context.redirect.return_url) {
+          window.location.href = context.redirect.return_url.replace('{paymentId}', context.payment.paymentId);
+        }
+      }
+    }
+  );
+
   // we wait for payment status result only if we know that user has already started payment
   if (cookies.get(alreadyStartedKey) === sid) {
     await paymentStatusManager.request();
