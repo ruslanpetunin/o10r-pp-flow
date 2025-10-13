@@ -11,6 +11,7 @@ export default function() {
       paymentId: '',
     },
     customer: {},
+    consent: [],
     redirect: {},
     paymentStatus: {
       status: PaymentStatus.NOT_STARTED,
@@ -42,6 +43,7 @@ export default function() {
     setSessionData: (data: SessionData) => {
       context.payment = data.payment;
       context.customer = data.customer;
+      context.consent = data.consent;
       context.redirect = data.redirect;
     },
     setSid: (sid: string) => {
