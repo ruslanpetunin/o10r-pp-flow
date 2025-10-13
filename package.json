@@ -1,6 +1,6 @@
 {
   "name": "o10r-pp-flow",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -27,7 +27,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "o10r-pp-core": "^0.5.12",
+    "o10r-pp-core": "^0.5.14",
     "o10r-pp-payment-method": "^0.1.3"
   }
 }
