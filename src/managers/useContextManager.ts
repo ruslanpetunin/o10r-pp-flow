@@ -1,6 +1,6 @@
 import type { Context, ContextManager } from '../types/context';
 import type { PaymentStatusData, SessionData } from 'o10r-pp-core';
-import { PaymentStatus } from 'o10r-pp-core';
+import { PaymentStatus, PaymentMode } from 'o10r-pp-core';
 
 export default function() {
   const context: Context = {
@@ -9,10 +9,12 @@ export default function() {
       amount: 0,
       currency: '',
       paymentId: '',
+      mode: PaymentMode.PAYMENT
     },
     customer: {},
     consent: [],
     redirect: {},
+    options: {},
     paymentStatus: {
       status: PaymentStatus.NOT_STARTED,
       payment: {
@@ -44,6 +46,7 @@ export default function() {
       context.payment = data.payment;
       context.customer = data.customer;
       context.consent = data.consent;
+      context.options = data.options;
       context.redirect = data.redirect;
     },
     setSid: (sid: string) => {

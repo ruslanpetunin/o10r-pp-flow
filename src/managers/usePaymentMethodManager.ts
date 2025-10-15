@@ -4,7 +4,7 @@ import type { ContextManager, Context } from './../types/context';
 import useBasePaymentMethodFactory, { isSavedCardPaymentMethod } from 'o10r-pp-payment-method';
 import type { EventMap } from './../types/event';
 import type { PaymentMethodManager } from './../types/paymentMethod';
-import { useBillingFields, useConsentFields } from "o10r-pp-core";
+import { useBillingFields, useConsentFields, PaymentMode } from "o10r-pp-core";
 
 const billingFields = useBillingFields();
 
@@ -15,7 +15,7 @@ function makePaymentMethod(context: Context, factory: PaymentMethodFactory, conf
 
   config.schema = [...config.schema, ...useConsentFields(context.consent)];
 
-  return factory.fromConfig(config);
+  return factory.fromConfig(config, context.payment.mode, context.options[config.code]);
 }
 
 export default function(
@@ -28,17 +28,19 @@ export default function(
   const list: PaymentMethod[] = [];
 
   async function load(paymentMethodsData: PaymentMethodData[]) {
+    const data = paymentMethodsData.filter(pm => context.payment.mode === PaymentMode.PAYMENT || pm.code === 'card');
     const pmFactory = paymentMethodFactory || useBasePaymentMethodFactory(api, context.sid);
+    const hasCardPaymentMethod = data.map(config => config.code).includes('card');
 
     list.push(
       ...await Promise.all(
-        paymentMethodsData.map(config => makePaymentMethod(context, pmFactory, config))
+        data.map(config => makePaymentMethod(context, pmFactory, config))
       )
     );
 
     eventManager.emit('paymentMethodsChanged', context);
 
-    if (list.map(m => m.code).includes('card') && context.customer.id) {
+    if (hasCardPaymentMethod && context.customer.id && context.payment.mode === PaymentMode.PAYMENT) {
       // We don`t wait it. We emit an event instead. It allows us to render the page much faster
       api.getSavedCards(context.sid)
         .then(

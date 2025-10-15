@@ -1,4 +1,12 @@
-import type { SessionData, PaymentStatusData, PaymentIntentData, CustomerData, ConsentField, RedirectData } from 'o10r-pp-core';
+import type {
+  SessionData,
+  PaymentStatusData,
+  PaymentIntentData,
+  CustomerData,
+  ConsentField,
+  OptionsData,
+  RedirectData
+} from 'o10r-pp-core';
 
 export interface ContextManager {
   getContext: () => Readonly<Context>,
@@ -14,5 +22,6 @@ export interface Context {
   customer: CustomerData,
   consent: ConsentField[],
   redirect: RedirectData,
+  options: OptionsData,
   paymentStatus: PaymentStatusData,
 }
