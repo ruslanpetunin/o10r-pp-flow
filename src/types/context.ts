@@ -5,7 +5,8 @@ import type {
   CustomerData,
   ConsentField,
   OptionsData,
-  RedirectData
+  RedirectData,
+  TextsData
 } from 'o10r-pp-core';
 
 export interface ContextManager {
@@ -23,5 +24,6 @@ export interface Context {
   consent: ConsentField[],
   redirect: RedirectData,
   options: OptionsData,
+  texts: TextsData,
   paymentStatus: PaymentStatusData,
 }
