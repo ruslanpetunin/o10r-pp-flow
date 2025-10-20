@@ -39,10 +39,14 @@ export default function(
 ) {
   const pay = async (method: PaymentMethod, additionalData: Record<string, unknown>) => {
     try {
+      const FingerprintJS = await import('@fingerprintjs/fingerprintjs');
+      const agent = await FingerprintJS.load();
+      const fingerprint = (await agent.get()).visitorId;
+
       const context = contextManager.getContext();
       const payFields = getPayFields(context, method, additionalData);
 
-      await api.pay(context.sid, method.code, payFields);
+      await api.pay(context.sid, method.code, fingerprint, payFields);
 
       eventManager.emit('pay', context);
 
