@@ -1,5 +1,5 @@
 import type { PaymentMethod } from 'o10r-pp-payment-method';
-import type { Api, EventManager, PayFields } from 'o10r-pp-core';
+import type { Api, EventManager, PayFields, FingerprintData } from 'o10r-pp-core';
 import type { ContextManager, Context } from './../types/context';
 import type { EventMap } from './../types/event';
 import type { PaymentStatusManager } from './../types/paymentStatus';
@@ -31,6 +31,24 @@ function getPayFields(context: Context, method: PaymentMethod, additionalData: R
   return result;
 }
 
+async function getFingerprintData(): Promise<FingerprintData> {
+  const FingerprintJS = await import('@fingerprintjs/fingerprintjs');
+  const agent = await FingerprintJS.load();
+  const data = await agent.get();
+  const result: FingerprintData = {
+    params: {},
+    hash: data.visitorId
+  };
+
+  for (const [key, value] of Object.entries(data.components)) {
+    if ('value' in value) {
+      result.params[key] = value.value;
+    }
+  }
+
+  return result;
+}
+
 export default function(
   api: Api,
   contextManager: ContextManager,
@@ -39,14 +57,11 @@ export default function(
 ) {
   const pay = async (method: PaymentMethod, additionalData: Record<string, unknown>) => {
     try {
-      const FingerprintJS = await import('@fingerprintjs/fingerprintjs');
-      const agent = await FingerprintJS.load();
-      const fingerprint = (await agent.get()).visitorId;
-
       const context = contextManager.getContext();
       const payFields = getPayFields(context, method, additionalData);
+      const fingerprintData = await getFingerprintData();
 
-      await api.pay(context.sid, method.code, fingerprint, payFields);
+      await api.pay(context.sid, method.code, fingerprintData, payFields);
 
       eventManager.emit('pay', context);
 

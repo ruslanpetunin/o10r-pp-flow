@@ -27,7 +27,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "o10r-pp-core": "^0.5.18",
+    "o10r-pp-core": "^0.5.19",
     "o10r-pp-payment-method": "^0.1.6",
     "@fingerprintjs/fingerprintjs": "^4.6.2"
   }
